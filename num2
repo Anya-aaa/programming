@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() 
+{
+    int quantityhouse; 
+
+    cout << "Введите количество домов: ";
+    cin >> quantityhouse;
+
+    if (quantityhouse <= 0) {
+        cout << "Ошибка, количество домов должно быть положительным" << endl;
+        return 1;
+    }
+
+    vector<int> house(quantityhouse);
+
+    cout << "Введите индексы домов (0 до " << quantityhouse - 1 << "), в которые нужно провести интернет ( закончить ввод -1):" << endl;
+    
+    while (true) {
+    
+        int index;
+        cin >> index;
+    
+        if (index == -1) 
+            break; // завершаем ввод, когда вводится -1
+        if (index >= 0 && index < quantityhouse) {//проверяет,что индекс находиться от 0 до кол. домов -1
+            house.push_back(index);//если индекс корректный, он добавляется в вектор house
+        } else {
+            cout << "Oшибка,некорректный индекс" << endl;
+        }
+    }
+    
+
+    sort(house.begin(), house.end());//Сортиртировка вектора house в порядке возрастания
+//unique распологает элементы так, чтобы уникальные значения шли вперед
+//функция erase удаляет ненужные элементы
+    house.erase(unique(house.begin(), house.end()), house.end());
+//находим дом, в который поставить коммутатор
+//empty проверяет наличие элементов в в. house
+
+    if (house.empty()) {
+        cout << "Не введено ни одного дома для подключения интернета" << endl;
+    return 1;
+    }
+
+    int internetHouseIndex = house[house.size() / 2]; //находит дом по середине по отношению к выбранным домам
+    
+    cout << "Установите коммутатор в дом: " << internetHouseIndex << endl;
+
+    return 0;
+}
